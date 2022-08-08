@@ -5,6 +5,7 @@ async function autoCommit() {
     logseq.App.showMsg('Committed successfully!');
   } catch (e) {
     logseq.App.showMsg('Committed failed!');
+    console.error(e);
   }
 }
 /**
