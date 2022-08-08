@@ -11,6 +11,7 @@ async function autoCommit() {
  * entry
  */
 function main () {
+  autoCommit();
   logseq.App.registerCommandShortcut({ binding: 'ctrl+s' }, autoCommit);
 }
 
