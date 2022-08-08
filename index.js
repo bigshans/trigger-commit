@@ -1,10 +1,13 @@
+async function commit() {
+  await logseq.Git.execCommand(['add', '*']);
+  await logseq.Git.execCommand(['commit', '-m', '"Auto saved by Logseq"']);
+}
 async function autoCommit() {
   try {
-    await logseq.Git.execCommand(['add', '*']);
-    await logseq.Git.execCommand(['commit', '-c', '"Auto saved by Logseq"']);
+    await commit();
     logseq.App.showMsg('Committed successfully!');
   } catch (e) {
-    logseq.App.showMsg('Committed failed!');
+    logseq.App.showMsg('Committed failed!', 'error');
     console.error(e);
   }
 }
@@ -12,9 +15,13 @@ async function autoCommit() {
  * entry
  */
 function main () {
-  autoCommit();
-  logseq.App.registerCommandShortcut({ binding: 'ctrl+s' }, autoCommit);
+  commit();
+  logseq.App.registerCommandShortcut({ binding: 'ctrl+s' }, () => {
+    logseq.App.showMsg('Committing!');
+    autoCommit();
+  }
+  );
 }
 
 // bootstrap
-logseq.ready(main).catch(err => logseq.App.showMsg(err));
+logseq.ready(main).catch(err => logseq.App.showMsg(err, 'error'));
